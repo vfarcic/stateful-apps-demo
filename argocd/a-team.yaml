@@ -1,22 +1,23 @@
+---
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane
+  name: a-team
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  - resources-finalizer.argocd.argoproj.io
 spec:
   project: production
   source:
-    chart: crossplane
-    repoURL: https://charts.crossplane.io/stable
-    targetRevision: 1.9.1
+    repoURL: https://github.com/vfarcic/stateful-apps-demo.git
+    targetRevision: HEAD
+    path: a-team
   destination:
-    namespace: crossplane-system
     server: https://kubernetes.default.svc
+    namespace: a-team
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
-    syncOptions:
-    - CreateNamespace=true
+      allowEmpty: true
